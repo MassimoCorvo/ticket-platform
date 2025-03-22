@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body class="container">
+
+  <header>
+    <nav th:replace="~{ fragments/navbar :: navbar}"></nav>
+  </header>
+
+  <div th:if="${message}" class="alert alert-dismissible fade show redirect-messages" th:classappend="${messageClass}"
+    role="alert">
+    <p th:text="${message}" />
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  <div class="container">
+    <p th:if="${tickets.isEmpty()}">
+      Non ci sono ticket da visualizzare
+    </p>
+
+    <table class="table" th:unless="${tickets.isEmpty()}">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Titolo</th>
+          <th scope="col">Categoria</th>
+          <th scope="col">Operatore</th>
+          <th scope="col">Descrizione</th>
+          <th scope="col">Stato</th>
+          <th scope="col">Nota operatore</th>
+          <th></th>
+          <th sec:authorize="hasAuthority('ADMIN')"></th>
+          <th sec:authorize="hasAuthority('ADMIN')"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="ticket : ${tickets}">
+          <td th:text="${ticket.getId()}"></td>
+          <td th:text="${ticket.getTitolo()}"></td>
+          <td th:text="${ticket.getCategoria().getNome()}"></td>
+          <td th:text="${ticket.getUtente().toString()}"></td>
+          <td th:text="${ticket.getDescrizione()}"></td>
+          <td th:text="${ticket.getStato()}"></td>
+          <td th:text="${ticket.getNota()}"></td>
+          <td>
+            <a th:href="@{/tickets/{id}(id=${ticket.getId()})}" class="btn btn-sm btn-primary">
+              Show
+            </a>
+          </td>
+          <td sec:authorize="hasAuthority('ADMIN')">
+            <a th:href="@{/tickets/edit/{id}(id=${ticket.getId()})}" class="btn btn-sm btn-success">
+              Edit
+            </a>
+          </td>
+          <td sec:authorize="hasAuthority('ADMIN')">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+              th:data-bs-target="'#delete-modal-' + ${ticket.getId()}">
+              Delete
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" th:id="'delete-modal-' + ${ticket.getId()}" tabindex="-1" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminare ticket [[${ticket.getId()}]]</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Eliminare ticket [[${ticket.getId()}]]?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla
+                    </button>
+                    <form th:action="@{/tickets/delete/{id}(id=${ticket.getId()})}" method="post" class="d-inline">
+                      <input type="submit" value="Conferma" class="btn btn-danger">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

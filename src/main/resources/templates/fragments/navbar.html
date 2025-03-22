@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <nav class="navbar bg-body-tertiary" th:fragment="navbar">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <img width="70" th:src="@{/images/ticket_platform.png}" />
+            </a>
+            <form sec:authorize="hasAuthority('ADMIN')" th:action="@{/tickets/search/title}" method="get" class="d-flex align-items-center">
+                <div>
+                    <label for="query" class="form-label d-none"></label>
+                    <input type="text" class="form-control" name="title" id="title" placeholder="Ricerca per titolo...">
+                </div>
+                <div class="ms-2">
+                    <input type="submit" value="Search" class="btn btn-primary">
+                </div>
+            </form>
+            <a th:href="@{/tickets/create}" class="btn btn-success">
+                Crea Ticket
+            </a>
+        </div>
+    </nav>
+</body>
+
+</html>
