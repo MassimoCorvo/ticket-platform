@@ -10,5 +10,7 @@ import com.ticket_platform.ticket_platform.model.Utente;
 public interface UtenteRepository extends JpaRepository<Utente, Integer>{
    public List<Utente> findByStatoTrue();
 
+   public Optional<Utente> findById(Integer id);
+
    public Optional<Utente> findByEmail(String email);
 }

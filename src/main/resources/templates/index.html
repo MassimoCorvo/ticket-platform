@@ -33,7 +33,6 @@
           <th scope="col">Operatore</th>
           <th scope="col">Descrizione</th>
           <th scope="col">Stato</th>
-          <th scope="col">Nota operatore</th>
           <th></th>
           <th sec:authorize="hasAuthority('ADMIN')"></th>
           <th sec:authorize="hasAuthority('ADMIN')"></th>
@@ -47,7 +46,6 @@
           <td th:text="${ticket.getUtente().toString()}"></td>
           <td th:text="${ticket.getDescrizione()}"></td>
           <td th:text="${ticket.getStato()}"></td>
-          <td th:text="${ticket.getNota()}"></td>
           <td>
             <a th:href="@{/tickets/{id}(id=${ticket.getId()})}" class="btn btn-sm btn-primary">
               Show

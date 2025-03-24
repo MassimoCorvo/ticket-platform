@@ -2,6 +2,7 @@ package com.ticket_platform.ticket_platform.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -12,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
@@ -44,23 +46,23 @@ public class Ticket {
     @NotBlank( message = "E' necessario inserire il titolo")
     private String titolo;
 
+    @OneToMany( mappedBy = "ticket" )
+    private List<Nota> note;
+
+    public List<Nota> getNote() {
+        return note;
+    }
+
+    public void setNote(List<Nota> note) {
+        this.note = note;
+    }
+
     public String getTitolo() {
         return titolo;
     }
 
     public void setTitolo(String titolo) {
         this.titolo = titolo;
-    }
-
-    @Lob
-    private String nota = "";
-
-    public String getNota() {
-        return nota;
-    }
-
-    public void setNota(String nota) {
-        this.nota = nota;
     }
 
     public String getDescrizione() {

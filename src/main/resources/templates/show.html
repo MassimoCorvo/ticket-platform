@@ -13,6 +13,12 @@
         <nav th:replace="~{ fragments/navbar :: navbar}"></nav>
     </header>
 
+    <div th:if="${message}" class="alert alert-dismissible fade show redirect-messages" th:classappend="${messageClass}"
+    role="alert">
+    <p th:text="${message}" />
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <div class="container d-flex justify-content-center mb-3">
         <h3>Dettagli ticket n° [[${ticket.getId()}]]</h3>
     </div>
@@ -24,7 +30,28 @@
             <p>Creato il: [[*{dataDiCreazione}]]</p>
             <p>Descrizione: [[*{descrizione}]]</p>
             <p>Operatore assegnato: [[*{utente.toString()}]]</p>
+            <p>Stato: [[*{stato}]]</p>
+            <table class="table" th:unless="${ticket.getNote().isEmpty()}">
+                <thead>
+                  <tr>
+                    <th scope="col">Autore</th>
+                    <th scope="col">Data di creazione</th>
+                    <th scope="col">Testo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="nota : ${ticket.getNote()}">
+                    <td>[[${nota.autore}]]</td>
+                    <td>[[${nota.dataDiCreazione}]]</td>
+                    <td>[[${nota.descrizione}]]</td>
+                  </tr>
+                </tbody>
+              </table>
+            <a th:href="@{/tickets/nota/crea/{id}(id=${ticket.getId()})}" class="btn btn-sm btn-success">
+                  Aggiungi nota
+            </a>
         </div>
+        
     </main>
 
 

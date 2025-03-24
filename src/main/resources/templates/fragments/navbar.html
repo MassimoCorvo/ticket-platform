@@ -16,7 +16,7 @@
                     <input type="submit" value="Search" class="btn btn-primary">
                 </div>
             </form>
-            <a th:href="@{/tickets/create}" class="btn btn-success">
+            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/tickets/create}" class="btn btn-success">
                 Crea Ticket
             </a>
         </div>

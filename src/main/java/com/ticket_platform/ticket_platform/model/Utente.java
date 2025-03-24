@@ -30,6 +30,9 @@ public class Utente {
     @OneToMany( mappedBy = "utente" )
     private List<Ticket> tickets;
 
+    @OneToMany( mappedBy = "autore")
+    private List<Nota> note;
+
     @ManyToMany( fetch = FetchType.EAGER )
     @JoinTable(
         name = "ruolo_utente",
@@ -116,5 +119,13 @@ public class Utente {
     @Override
     public String toString(){
         return this.nome + " " + this.cognome;
+    }
+
+    public List<Nota> getNote() {
+        return note;
+    }
+
+    public void setNote(List<Nota> note) {
+        this.note = note;
     }
 }
