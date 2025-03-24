@@ -59,11 +59,13 @@ public class TicketController {
             model.addAttribute("tickets", ticketService.trovaTuttiTicketUtente(userDetails.getId()));
         }
 
+        model.addAttribute("utente", utenteRepository.findById(userDetails.getId()).get());
         return "index";
     }
 
     @GetMapping("/create")
-    public String create(Model model) {
+    public String create(Model model, @AuthenticationPrincipal DatabaseUserDetails userDetails) {
+        model.addAttribute("utente", utenteRepository.findById(userDetails.getId()).get());
         model.addAttribute("ticket", new Ticket());
         model.addAttribute("operatoriDisponibili", utenteRepository.findByStatoTrue());
         model.addAttribute("categorie", categoriaService.findAll());
@@ -88,14 +90,18 @@ public class TicketController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable Integer id, Model model) {
+    public String show(@PathVariable Integer id, Model model,
+            @AuthenticationPrincipal DatabaseUserDetails userDetails) {
+        model.addAttribute("utente", utenteRepository.findById(userDetails.getId()).get());
         Ticket ticket = ticketService.findById(id).get();
         model.addAttribute("ticket", ticket);
         return "show";
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model,
+            @AuthenticationPrincipal DatabaseUserDetails userDetails) {
+        model.addAttribute("utente", utenteRepository.findById(userDetails.getId()).get());
         model.addAttribute("ticket", ticketService.getById(id));
         model.addAttribute("categorie", categoriaService.findAll());
         return "edit";
@@ -104,6 +110,7 @@ public class TicketController {
     @PostMapping("/edit/{id}")
     public String update(@Valid @ModelAttribute("ticket") Ticket formTicket,
             BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("categorie", categoriaService.findAll());
             return "edit";
@@ -119,6 +126,7 @@ public class TicketController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+
         ticketService.delete(id);
         redirectAttributes.addFlashAttribute("message", String.format("Ticket n° %s eliminato con successo", id));
         redirectAttributes.addFlashAttribute("messageClass", "alert-danger");
@@ -126,14 +134,20 @@ public class TicketController {
     }
 
     @GetMapping("/search/title")
-    public String findByTitle(@RequestParam(name = "title") String title, Model model) {
+    public String findByTitle(@RequestParam(name = "title") String title, Model model,
+            @AuthenticationPrincipal DatabaseUserDetails userDetails) {
+        model.addAttribute("utente", utenteRepository.findById(userDetails.getId()).get());
+
         List<Ticket> tickets = ticketService.findByTitle(title);
         model.addAttribute("tickets", tickets);
         return "index";
     }
 
     @GetMapping("/nota/crea/{id}")
-    public String create(@PathVariable Integer id, Model model) {
+    public String create(@PathVariable Integer id, Model model,
+            @AuthenticationPrincipal DatabaseUserDetails userDetails) {
+        model.addAttribute("utente", utenteRepository.findById(userDetails.getId()).get());
+
         Nota nota = new Nota();
         model.addAttribute("nota", nota);
         model.addAttribute("ticket", ticketService.findById(id).get());
@@ -143,7 +157,7 @@ public class TicketController {
     @PostMapping("/nota/crea/{id}")
     public String store(@PathVariable Integer id, @Valid @ModelAttribute("nota") Nota notaForm, Model model,
             RedirectAttributes redirectAttributes, @AuthenticationPrincipal DatabaseUserDetails userDetails) {
-        
+
         notaForm.setDataDiCreazione(LocalDateTime.now());
         notaForm.setAutore(utenteRepository.findByEmail(userDetails.getUsername()).get());
         notaForm.setTicket(ticketService.getById(id));

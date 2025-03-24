@@ -7,6 +7,9 @@
             <a class="navbar-brand" th:href="@{/}">
                 <img width="70" th:src="@{/images/ticket_platform.png}" />
             </a>
+            <a th:href="@{|/utente/${utente.id}|}" class="btn btn-success">
+                Dati personali
+            </a>
             <form sec:authorize="hasAuthority('ADMIN')" th:action="@{/tickets/search/title}" method="get" class="d-flex align-items-center">
                 <div>
                     <label for="query" class="form-label d-none"></label>

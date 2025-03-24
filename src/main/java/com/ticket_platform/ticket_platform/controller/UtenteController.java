@@ -25,8 +25,8 @@ public class UtenteController {
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model,
             @AuthenticationPrincipal DatabaseUserDetails userDetails) {
-        // model.addAttribute("utente",
-        // utenteRepository.findById(userDetails.getId()).get());
+        model.addAttribute("utente", utenteRepository.findById(id).get());
+
         if (id.equals(userDetails.getId())) {
             model.addAttribute("utente", utenteRepository.findById(id).get());
             return "dati_personali";
@@ -38,10 +38,12 @@ public class UtenteController {
     @GetMapping("/{id}/modifica-dati")
     public String edit(@PathVariable Integer id, Model model,
             @AuthenticationPrincipal DatabaseUserDetails userDetails) {
+        model.addAttribute("utente", utenteRepository.findById(id).get());
+
         if (id.equals(userDetails.getId())) {
-            model.addAttribute("utente", utenteRepository.findById(id).get());
             return "modifica_dati_personali";
         }
+        
         return "redirect:/";
     }
 
