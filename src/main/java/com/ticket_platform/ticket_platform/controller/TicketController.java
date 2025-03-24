@@ -146,7 +146,7 @@ public class TicketController {
         
         notaForm.setDataDiCreazione(LocalDateTime.now());
         notaForm.setAutore(utenteRepository.findByEmail(userDetails.getUsername()).get());
-        //notaForm.setTicket(ticketService.getById(id));
+        notaForm.setTicket(ticketService.getById(id));
 
         notaService.create(notaForm);
         redirectAttributes.addFlashAttribute("message", "Nota aggiunta con successo.");
