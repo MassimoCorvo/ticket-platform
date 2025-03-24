@@ -1,7 +1,5 @@
 package com.ticket_platform.ticket_platform.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +11,8 @@ public class UtenteService {
     @Autowired
     UtenteRepository utenteRepository;
 
-    
+    public void update(Utente utente){
+        utenteRepository.save(utente);
+    }
 
 }
