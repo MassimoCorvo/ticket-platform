@@ -2,8 +2,6 @@ package com.ticket_platform.ticket_platform.model;
 
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,15 +13,13 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "ruoli")
 public class Ruolo {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String ruolo;
 
-    @ManyToMany( mappedBy = "ruoli", fetch = FetchType.EAGER )
-    @JsonBackReference
+    @ManyToMany(mappedBy = "ruoli", fetch = FetchType.EAGER)
     private Set<Utente> utenti;
 
     public Integer getId() {

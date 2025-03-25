@@ -2,8 +2,6 @@ package com.ticket_platform.ticket_platform.model;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.domain.Persistable;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
@@ -14,28 +12,25 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "note")
 public class Nota{
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "autore_id", nullable = false)
-    @JsonBackReference
     private Utente autore;
 
     @Lob
-    @NotBlank( message = "E' necessario inserire la descrizione")
+    @NotBlank(message = "E' necessario inserire la descrizione")
     private String descrizione;
 
     @ManyToOne
     @JoinColumn(name = "ticket_id", nullable = false)
-    @JsonBackReference
     private Ticket ticket;
 
     private LocalDateTime dataDiCreazione;

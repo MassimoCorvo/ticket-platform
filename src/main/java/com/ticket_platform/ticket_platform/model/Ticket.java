@@ -18,9 +18,8 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table( name = "tickets")
+@Table(name = "tickets")
 public class Ticket {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -40,13 +39,13 @@ public class Ticket {
     private String stato;
 
     @Lob
-    @NotBlank( message = "E' necessario inserire la descrizione")
+    @NotBlank(message = "E' necessario inserire la descrizione")
     private String descrizione;
 
-    @NotBlank( message = "E' necessario inserire il titolo")
+    @NotBlank(message = "E' necessario inserire il titolo")
     private String titolo;
 
-    @OneToMany( mappedBy = "ticket" )
+    @OneToMany(mappedBy = "ticket" )
     private List<Nota> note;
 
     public List<Nota> getNote() {

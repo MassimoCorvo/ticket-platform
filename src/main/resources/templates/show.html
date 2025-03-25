@@ -50,6 +50,9 @@
             <a th:href="@{/tickets/nota/crea/{id}(id=${ticket.getId()})}" class="btn btn-sm btn-success">
                   Aggiungi nota
             </a>
+            <a th:href="@{/tickets/{id}/cambia-stato (id=${ticket.getId()})}" class="btn btn-sm btn-success">
+                Modifica stato ticket
+            </a>
         </div>
         
     </main>

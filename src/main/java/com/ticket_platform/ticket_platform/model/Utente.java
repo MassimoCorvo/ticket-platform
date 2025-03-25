@@ -19,7 +19,6 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 @Table(name = "utenti")
 public class Utente {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -27,13 +26,13 @@ public class Utente {
     @NotBlank(message = "Password cannot be blank, empty or null")
     private String password;
 
-    @OneToMany( mappedBy = "utente" )
+    @OneToMany(mappedBy = "utente")
     private List<Ticket> tickets;
 
-    @OneToMany( mappedBy = "autore")
+    @OneToMany(mappedBy = "autore")
     private List<Nota> note;
 
-    @ManyToMany( fetch = FetchType.EAGER )
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "ruolo_utente",
         joinColumns = @JoinColumn(name = "utente_id"),

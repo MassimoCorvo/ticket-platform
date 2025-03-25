@@ -11,7 +11,7 @@ public class NotaService {
     @Autowired
     NotaRepository notaRepository;
 
-    public void create(Nota notaDaCreare){
-        notaRepository.save(notaDaCreare);
+    public Nota create(Nota notaDaCreare){
+        return notaRepository.save(notaDaCreare);
     }
 }
