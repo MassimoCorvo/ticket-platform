@@ -63,4 +63,30 @@ public class UtenteController {
         redirectAttributes.addFlashAttribute("messageClass", "alert-primary");
         return "redirect:/utente/" + id;
     }
+
+    @GetMapping("/{id}/modifica-stato")
+    public String modificaStato(@PathVariable Integer id, Model model ){
+        model.addAttribute("utente", utenteService.utenteAutenticato());
+        return "cambia_stato_operatore";
+    }
+
+    @PostMapping("/{id}/modifica-stato")
+    public String updateStato(@PathVariable Integer id, Model model, @ModelAttribute("utente") Utente utente,
+    RedirectAttributes redirectAttributes){
+        Utente utenteLoggato = utenteService.utenteAutenticato();
+        Integer utenteId = utenteLoggato.getId();
+        if(utenteService.puoDiventareNonAttivo(utenteId)){   
+                utenteLoggato.setStato(utente.isStato());
+                utenteService.update(utenteLoggato);
+                redirectAttributes.addFlashAttribute("message",
+                "Stato modificato con successo");
+                redirectAttributes.addFlashAttribute("messageClass", "alert-primary");
+                return "redirect:/";
+            }
+        
+        redirectAttributes.addFlashAttribute("message",
+            "L'utente non può cambiare stato");
+        redirectAttributes.addFlashAttribute("messageClass", "alert-warning");
+        return "redirect:/";
+    }
 }

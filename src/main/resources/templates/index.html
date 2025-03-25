@@ -23,7 +23,8 @@
     <p th:if="${tickets.isEmpty()}">
       Non ci sono ticket da visualizzare
     </p>
-
+    <span th:text="${utente.isStato()} ? 'Stato: Disponibile' : 'Stato: Non Disponibile'" class="me-2"></span>
+    <a th:href="@{/utente/{id}/modifica-stato (id=${utente.getId()})}">Modifica stato</a>
     <table class="table" th:unless="${tickets.isEmpty()}">
       <thead>
         <tr>
