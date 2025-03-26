@@ -164,6 +164,7 @@ public class TicketController {
         notaForm.setDataDiCreazione(LocalDateTime.now());
         notaForm.setAutore(utenteService.utenteAutenticato());
         notaForm.setTicket(ticketService.getById(id));
+        notaForm.setId(null);
 
         notaService.create(notaForm);
         redirectAttributes.addFlashAttribute("message", "Nota aggiunta con successo.");
