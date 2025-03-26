@@ -47,22 +47,33 @@ public class UtenteController {
     }
 
     @PostMapping("/{id}/modifica-dati")
-    public String update(@PathVariable Integer id, Model model, @ModelAttribute("utente") Utente utente, BindingResult bindingResult,
-            RedirectAttributes redirectAttributes) {
-        
-        if (bindingResult.hasErrors()) {
+public String update(@PathVariable Integer id, Model model,
+                     @ModelAttribute("utente") Utente utenteForm,
+                     BindingResult bindingResult,
+                     RedirectAttributes redirectAttributes) {
 
-            return "edit";
-        }
-
-        utente.setPassword("{noop}" + utente.getPassword());
-        utente.setRuoli(utente.getRuoli());
-        utenteRepository.save(utente);
-        redirectAttributes.addFlashAttribute("message",
-                String.format("Utente n° %s modificato con successo", utente.getId()));
-        redirectAttributes.addFlashAttribute("messageClass", "alert-primary");
-        return "redirect:/utente/" + id;
+    if (bindingResult.hasErrors()) {
+        return "modifica_dati_personali";
     }
+
+    Utente utenteDB = utenteRepository.findById(id).orElseThrow();
+
+    utenteDB.setNome(utenteForm.getNome());
+    utenteDB.setCognome(utenteForm.getCognome());
+    utenteDB.setEmail(utenteForm.getEmail());
+
+    if (utenteForm.getPassword() != null && !utenteForm.getPassword().isBlank()) {
+        utenteDB.setPassword("{noop}" + utenteForm.getPassword());
+    }
+
+    utenteRepository.save(utenteDB);
+
+    redirectAttributes.addFlashAttribute("message",
+            String.format("Utente n° %s modificato con successo", utenteDB.getId()));
+    redirectAttributes.addFlashAttribute("messageClass", "alert-primary");
+
+    return "redirect:/utente/" + id;
+}
 
     @GetMapping("/{id}/modifica-stato")
     public String modificaStato(@PathVariable Integer id, Model model ){
