@@ -69,4 +69,12 @@ public class TicketService {
         return ticketRepository.findByTitoloContaining(titolo);
     }
 
+    public List<Ticket> ricercaPerCategoria(String categoria){
+        return ticketRepository.findByCategoriaNomeContaining(categoria);
+    }
+
+    public List<Ticket> ricercaPerStato(String stato){
+        return ticketRepository.findByStato(stato);
+    }
+
 }

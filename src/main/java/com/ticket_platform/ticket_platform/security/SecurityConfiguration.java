@@ -21,6 +21,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/tickets/search/**").hasAuthority("ADMIN")
                 .requestMatchers("/tickets", "/tickets/**").hasAnyAuthority("OPERATORE", "ADMIN")
                 .requestMatchers("/**").hasAnyAuthority("OPERATORE", "ADMIN")
+                .requestMatchers("/api/tickets", "/api/tickets/categoria", "/api/tickets/stato").permitAll()
                 .and().formLogin()
                 .and().logout()
                 .and().exceptionHandling();
