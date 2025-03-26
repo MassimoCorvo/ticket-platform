@@ -73,8 +73,9 @@ public class TicketController {
             BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("create", true);
             model.addAttribute("categorie", categoriaService.findAll());
+            model.addAttribute("utente", utenteService.utenteAutenticato());
+            model.addAttribute("operatoriDisponibili", utenteRepository.findByStatoTrue());
             return "admin/create";
         }
 
@@ -102,11 +103,13 @@ public class TicketController {
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@Valid @ModelAttribute("ticket") Ticket formTicket,
+    public String update(@Valid @ModelAttribute("ticket") Ticket formTicket, @PathVariable Integer id,
             BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("categorie", categoriaService.findAll());
+            model.addAttribute("utente", utenteService.utenteAutenticato());
+            model.addAttribute("ticket", ticketService.getById(id));
             return "edit";
         }
 

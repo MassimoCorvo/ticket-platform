@@ -17,7 +17,7 @@
         <form th:action="@{|/tickets/edit/${ticket.getId()}|}" th:object="${ticket}" method="post" id="ticket-edit-form">
             <div class="mb-3" >
                 <label for="titolo" class="form-label">Titolo:</label>
-                <textarea id="titolo" class="form-control" th:field="*{titolo}"></textarea>
+                <textarea id="titolo" class="form-control" th:field="*{titolo}" th:errorClass="is-invalid"></textarea>
                 <div th:if="${#fields.hasErrors('titolo')}" class="invalid-feedback">
                     <ul>
                         <li th:each="error : ${#fields.errors('titolo')}" th:text="${error}" />
@@ -35,7 +35,7 @@
 
             <div class="mb-3" >
                 <label for="descrizione" class="form-label">Descrizione:</label>
-                <textarea id="descrizione" class="form-control" th:field="*{descrizione}"></textarea>
+                <textarea id="descrizione" class="form-control" th:field="*{descrizione}" th:errorClass="is-invalid"></textarea>
                 <div th:if="${#fields.hasErrors('descrizione')}" class="invalid-feedback">
                     <ul>
                         <li th:each="error : ${#fields.errors('descrizione')}" th:text="${error}" />
@@ -58,7 +58,9 @@
             <input type="reset" value="Reset fields" class="btn btn-warning">
         </form>
     </main>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
